@@ -6,10 +6,6 @@ The script is still work in progress, at the moment i made only the "Sustain" bu
 
 For this to work i user the g_midi module, RPI.gpio and python-rtmidi.
 
-First follow this guide to setup the Raspberry to work as MIDI gadget, and to create a "MIDI Device" that we will use to output MIDI signals.\
-[Raspberry as MIDI Device Guide](https://ixdlab.itu.dk/wp-content/uploads/sites/17/2017/10/Setting-Up-Raspberry-Pi-for-MIDI.pdf)\
-(also i downloaded that PDF and uploaded in this git in the "other" folder, just to be sure not to lose it if the link goes down)
-
 Instructions Work in progress... I'll finish this readme as soon as i can.
 
 
@@ -27,6 +23,8 @@ The default password is **raspberry**
 7. Now that we are in, we need internet to install things. So, issue a `sudo raspi-config` and under the Network settings connect to a WiFi network and you are done.\
 *NOTE:* once connected to the WiFi, use `ifconfig` and write down your wlan0 IP address, because once we setup the Raspberry as MIDI device, we won't be able to use raspberrypi.local to SSH to it, we will need to SSH using `ssh pi@<ip_address>`.
 
+Now we can work on the raspberry, later we will set it as MIDI device.
+
 ### Requirements
 First of all, make sure Raspbian is updated:\
 `sudo apt-get update`
@@ -42,6 +40,34 @@ Now install **python-rtmidi**:\
 
 ### Cronjob
 
-### Script Usage
+### Raspberry MIDI Device
+At this point we should have all the necessary files. Time to make our MIDI Gadget!\
+Start by doing these steps:\
+1. `echo "dtoverlay=dwc2" | sudo tee -a /boot/config.txt`
+2. `echo "dwc2" | sudo tee -a /etc/modules`
+3. `echo "libcomposite" | sudo tee -a /etc/modules`
+4. `echo "g_midi" | sudo tee -a /etc/modules`
+5. Create midi_over_usb file:\
+`sudo touch /usr/bin/midi_over_usb`
+6. Make it executable:\
+`sudo chmod +x /usr/bin/midi_over_usb`
+7. Edit it:\
+`sudo nano /usr/bin/midi_over_usb`\
+and paste the following:\
+`cd /sys/kernel/config/usb_gadget/
+mkdir -p midi_over_usb
+cd midi_over_usb
+echo 0x1d6b > idVendor # Linux Foundation
+echo 0x0104 > idProduct # Multifunction Composite Gadget
+echo 0x0100 > bcdDevice # v1.0.0
+echo 0x0200 > bcdUSB # USB2
+mkdir -p strings/0x409
+echo "fedcba9876543210" > strings/0x409/serialnumber
+echo "Your Name" > strings/0x409/manufacturer
+echo "MIDI USB Device" > strings/0x409/product
+ls /sys/class/udc > UDC`
 
 ### Credits
+[Raspberry as MIDI Device Guide](https://ixdlab.itu.dk/wp-content/uploads/sites/17/2017/10/Setting-Up-Raspberry-Pi-for-MIDI.pdf)\
+(also i downloaded that PDF and uploaded in this git in the "other" folder, just to be sure not to lose it if the link goes down)
+
