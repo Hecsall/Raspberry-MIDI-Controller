@@ -1,7 +1,4 @@
-# import argparse
 import logging
-# import shlex
-# import subprocess
 import sys
 import time
 from os.path import exists
@@ -14,7 +11,8 @@ from rtmidi.midiconstants import (
   CONTROLLER_CHANGE, 
   NOTE_ON, 
   NOTE_OFF, 
-  # CC
+
+  # CC - Controller Change
   SUSTAIN,
   PORTAMENTO,
   SOSTENUTO,
@@ -55,9 +53,9 @@ class FootController(object):
     # GPIO.setmode(GPIO.BCM)
     # GPIO.setup(12, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 
-    # GPIO PIN -> control
+    # Here GPIO PINs are mapped to a midi CC,
+    # so for example when pin 4 is activated, it will trigger Sustain
     self.gpio_channel_map = {
-      # GPIO PIN, 'control'
       4: 'sustain'
     }
 
@@ -73,11 +71,11 @@ class FootController(object):
     attr = getattr(self, control)
     if attr == False:
       setattr(self, control, True)
-      value = 64 # ON
+      value = 64 # >= 64 -> ON
       log.info(control + " ON")
     else:
       setattr(self, control, False)
-      value = 63 # OFF
+      value = 63 # <= 63 -> OFF
       log.info(control + " OFF")
 
     control = CC_CONTROLS_MAP.get(control)
@@ -104,10 +102,7 @@ def main():
   logging.basicConfig(format="%(name)s: %(levelname)s - %(message)s", level=logging.INFO)
 
   # Apro porta MIDI virtuale (nome dispositivo che vedrà Ableton)
-  # midiout = rtmidi.MidiOut()
   midiout_name = "Python MIDI"
-  # midiout.open_port(0)
-
   midiout, port_name = open_midioutput(1)
 
   # Inizializzo FootController
@@ -116,11 +111,9 @@ def main():
   log.info("Entering main loop. Press Control-C to exit.")
 
   try:
-    # just wait for keyboard interrupt in main thread
     while True:
       footcontroller.sustainbtn.when_pressed = lambda : footcontroller.controllerChange(4)
-      # footcontroller.sustainbtn.when_pressed = lambda : footcontroller.note(60, True)
-
+      # possibile fare ciclo loop su footcontroller.gpio_channel_map ?
 
   except KeyboardInterrupt:
     print('')
