@@ -48,11 +48,6 @@ class FootController(object):
     self.legato = False
     self.portamento = False
 
-    # Init GPIO
-    # GPIO.setwarnings(False)
-    # GPIO.setmode(GPIO.BCM)
-    # GPIO.setup(12, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
-
     # Here GPIO PINs are mapped to a midi CC,
     # so for example when pin 4 is activated, it will trigger Sustain
     self.gpio_channel_map = {
@@ -101,24 +96,26 @@ def test(channel):
 def main():
   logging.basicConfig(format="%(name)s: %(levelname)s - %(message)s", level=logging.INFO)
 
-  # Apro porta MIDI virtuale (nome dispositivo che vedrà Ableton)
   midiout_name = "Python MIDI"
   midiout, port_name = open_midioutput(1)
 
-  # Inizializzo FootController
+  # Init FootController
   footcontroller = FootController(midiout_name, midiout)
 
   log.info("Entering main loop. Press Control-C to exit.")
 
   try:
     while True:
-      footcontroller.sustainbtn.when_pressed = lambda : footcontroller.controllerChange(4)
-      # possibile fare ciclo loop su footcontroller.gpio_channel_map ?
+      footcontroller.sustainbtn.when_pressed = lambda : footcontroller.controllerChange(4) # When pressed activate the CC
+      footcontroller.sustainbtn.when_released = lambda : footcontroller.controllerChange(4) # When released deactivate the CC
+     
+      # This needs to be simpler, something like:
+      # footcontroller.holdButton(GPIO_PIN) # Hold = ON, Release = OFF
+      # footcontroller.toggleButton(GPIO_PIN) # Press = ON, Press again = OFF
 
   except KeyboardInterrupt:
     print('')
   finally:
-    # GPIO.cleanup()
     del footcontroller
     del midiout
 

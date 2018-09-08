@@ -26,6 +26,11 @@ from rtmidi.midiconstants import (
 log = logging.getLogger('midi2command')
 
 
+# Init GPIO
+# GPIO.setwarnings(False)
+# GPIO.setmode(GPIO.BCM)
+# GPIO.setup(12, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+
 STATUS_MAP = {
   'noteon': NOTE_ON,
   'noteoff': NOTE_OFF,
@@ -103,6 +108,7 @@ def main(args=None):
   except KeyboardInterrupt:
     print('')
   finally:
+    # GPIO.cleanup()
     del midiout
 
 
