@@ -88,10 +88,6 @@ class FootController(object):
 
 
 
-def test(channel):
-  footcontroller.controllerChange('sustain')
-
-
 
 def main():
   logging.basicConfig(format="%(name)s: %(levelname)s - %(message)s", level=logging.INFO)
