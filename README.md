@@ -1,5 +1,5 @@
 
-## Raspberry Pi Zero - MIDI Controller
+# Raspberry Pi Zero - MIDI Controller
 
 This is a project i did to make a midi controller using a Raspberry Pi Zero in "Gadget Mode" (a standalone device that's plug-and-play with a single USB cable just like every other MIDI controller).\
 The script is still work in progress, at the moment i made only the "Sustain" button, but i'm planning to enhance it with more functions.
@@ -13,12 +13,12 @@ First follow this guide to setup the Raspberry to work as MIDI gadget, and to cr
 Instructions Work in progress... I'll finish this readme as soon as i can.
 
 
-## Requirements
+### Requirements
 python-rtmidi
 RPi.GPIO
 
-## Cronjob
+### Cronjob
 
-## Script Usage
+### Script Usage
 
-## Resources
+### Resources
