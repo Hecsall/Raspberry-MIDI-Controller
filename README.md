@@ -6,8 +6,6 @@ The script is still work in progress, at the moment i made only the "Sustain" bu
 
 For this to work i user the g_midi module, RPI.gpio and python-rtmidi.
 
-Instructions Work in progress... I'll finish this readme as soon as i can.
-
 
 ## Setting up the Raspberry
 You will have to follow [this guide](https://blog.gbaman.info/?p=791) to enable the Programming-over-usb capability. This is needed to connect your Raspberry to your PC via usb and use it without the need of extra keyboard, mouse and screen.\
@@ -38,7 +36,6 @@ It should be already installed on Raspbian, but if not:\
 Now install **python-rtmidi**:\
 `sudo pip3 install python-rtmidi`
 
-### Cronjob
 
 ### Raspberry MIDI Device
 At this point we should have all the necessary files. Time to make our MIDI Gadget!\
@@ -75,14 +72,38 @@ and write this before "exit0", then save it:\
 9. Finally, you can reboot your Raspberry:\
 `sudo reboot`
 
-If everything was done correctly, after the reboot you should still be able to connect to the rasbperry using the raspberrypi.local address, thats because in our "cmdline.txt" it's still as "g_ether" and not "g_midi", but we will fix that in a moment, but before that, let's check if our "midi_over_usb" that we created is working.\
+If everything was done correctly, after the reboot you should still be able to connect to the rasbperry using the raspberrypi.local address, thats because in our "cmdline.txt" it's still as "g_ether" and not "g_midi", so let's fix this:\
+Open the "cmdline.txt" file:
+`sudo nano /boot/cmdline.txt`\
+And at the end, replace "g_ether" with "g_midi", then save it (Ctrl+O, Enter, Ctrl+X)\
+Take note of your raspberry pi IP address using `ifconfig`, we will need it in a minute.\
+Now reboot again:\
+`sudo reboot`
+
+Good, once the reboot is done we should be able to connect to the raspberry using the IP.\
+`ssh pi@<ip_address>`\
+and we are in!
+
+Let's quickly check if our "midi_over_usb" that we created is working.\
 To do so, type `arecordmidi -l` and hit enter, you should see a list of midi ports looking like this:
 ```
 14:0    Midi Through         Midi Through Port-0
 16:0    f_midi               f_midi
 ```
 That "f_midi" is our MIDI port that we will be using.
- 
+
+### The script
+You are tired, i know, but this is the last step, hold on.\
+For now we have:\
+- Set the Raspberry to be able to work on it via USB
+- Installed all the required libraries that we need
+- Created a MIDI port that we will use to send outputs
+
+For the last step we need to make the python script execute at boot, so we don't need to do anything.\
+For this purpose i used **Cronjob**.\
+WIP
+
+
 ### Credits
 [Raspberry Pi Zero - Programming over USB!](https://blog.gbaman.info/?p=791)\
 [Setting up Raspberry Pi for MIDI](https://ixdlab.itu.dk/wp-content/uploads/sites/17/2017/10/Setting-Up-Raspberry-Pi-for-MIDI.pdf)\
