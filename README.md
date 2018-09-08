@@ -53,7 +53,7 @@ Start by doing these steps:\
 `sudo chmod +x /usr/bin/midi_over_usb`
 7. Edit it:\
 `sudo nano /usr/bin/midi_over_usb`\
-and paste the following:\
+paste the following and save it:
 ```
 cd /sys/kernel/config/usb_gadget/
 mkdir -p midi_over_usb
@@ -68,8 +68,24 @@ echo "Your Name" > strings/0x409/manufacturer
 echo "MIDI USB Device" > strings/0x409/product
 ls /sys/class/udc > UDC
 ```
+8. Now edit your rc.local:\
+`sudo nano /etc/rc.local`\
+and write this before "exit0", then save it:\
+`/usr/bin/midi_over_usb`\
+9. Finally, you can reboot your Raspberry:\
+`sudo reboot`
 
+If everything was done correctly, after the reboot you should still be able to connect to the rasbperry using the raspberrypi.local address, thats because in our "cmdline.txt" it's still as "g_ether" and not "g_midi", but we will fix that in a moment, but before that, let's check if our "midi_over_usb" that we created is working.\
+To do so, type `arecordmidi -l` and hit enter, you should see a list of midi ports looking like this:
+```
+14:0    Midi Through         Midi Through Port-0
+16:0    f_midi               f_midi
+```
+That "f_midi" is our MIDI port that we will be using.
+ 
 ### Credits
-[Raspberry as MIDI Device Guide](https://ixdlab.itu.dk/wp-content/uploads/sites/17/2017/10/Setting-Up-Raspberry-Pi-for-MIDI.pdf)\
-(also i downloaded that PDF and uploaded in this git in the "other" folder, just to be sure not to lose it if the link goes down)
-
+[Raspberry Pi Zero - Programming over USB!](https://blog.gbaman.info/?p=791)\
+[Setting up Raspberry Pi for MIDI](https://ixdlab.itu.dk/wp-content/uploads/sites/17/2017/10/Setting-Up-Raspberry-Pi-for-MIDI.pdf)\
+(also i downloaded that PDF and uploaded in this git in the "other" folder, just to be sure not to lose it if the link goes down)\
+[Python-RtMidi](https://pypi.org/project/python-rtmidi/)\
+[RPi.GPIO](https://pypi.org/project/RPi.GPIO/)
