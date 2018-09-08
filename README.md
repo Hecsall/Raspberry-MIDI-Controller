@@ -24,11 +24,20 @@ I'll write down here the steps:
 6. Give it time to boot up, than it should be recognized from your computer. Now open a terminal window on your computer and try to ssh to the Raspberry like this:\
 `ssh pi@raspberrypi.local`\
 The default password is **raspberry**
-
+7. Now that we are in, we need internet to install things. So, issue a `sudo raspi-config` and under the Network settings connect to a WiFi network and you are done.
 
 ### Requirements
-python-rtmidi
-RPi.GPIO
+First of all, make sure Raspbian is updated:\
+`sudo apt-get update`\
+
+This script uses **Python 3**, so make sure to have it.\
+
+Ok now let's see what we need. For sure we need **RPi.GPIO** to control the GPIO pins on the Raspberry.\
+It should be already installed on Raspbian, but if not:\
+`sudo apt-get install python-rpi.gpio python3-rpi.gpio`\
+
+Now install **python-rtmidi**:\
+`sudo pip3 install python-rtmidi`\
 
 ### Cronjob
 
