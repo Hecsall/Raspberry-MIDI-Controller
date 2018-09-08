@@ -4,7 +4,7 @@
 This is a project i did to make a midi controller using a Raspberry Pi Zero in "Gadget Mode" (a standalone device that's plug-and-play with a single USB cable just like every other MIDI controller).\
 The script is still work in progress, at the moment i made only the "Sustain" button, but i'm planning to enhance it with more functions.
 
-For this to work i user the g_midi module, RPI.gpio and python-rtmidi.
+For this to work i user the g_midi module, gpiozero and python-rtmidi.
 
 
 ## Setting up the Raspberry
@@ -29,9 +29,8 @@ First of all, make sure Raspbian is updated:\
 
 This script uses **Python 3**, so make sure to have it.
 
-Ok now let's see what we need. For sure we need **RPi.GPIO** to control the GPIO pins on the Raspberry.\
-It should be already installed on Raspbian, but if not:\
-`sudo apt-get install python-rpi.gpio python3-rpi.gpio`
+Ok now let's see what we need. I used **gpiozero** to control the GPIO pins on the Raspberry.\
+`sudo apt install python3-gpiozero`
 
 Now install **python-rtmidi**:\
 `sudo pip3 install python-rtmidi`
