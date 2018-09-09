@@ -38,7 +38,7 @@ Now install **python-rtmidi**:\
 
 ### Raspberry MIDI Device
 At this point we should have all the necessary files. Time to make our MIDI Gadget!\
-Start by doing these steps:\
+Start by doing these steps:
 1. `echo "dtoverlay=dwc2" | sudo tee -a /boot/config.txt`
 2. `echo "dwc2" | sudo tee -a /etc/modules`
 3. `echo "libcomposite" | sudo tee -a /etc/modules`
@@ -67,14 +67,14 @@ ls /sys/class/udc > UDC
 8. Now edit your rc.local:\
 `sudo nano /etc/rc.local`\
 and write this before "exit0", then save it:\
-`/usr/bin/midi_over_usb`\
+`/usr/bin/midi_over_usb`
 9. Finally, you can reboot your Raspberry:\
 `sudo reboot`
 
 If everything was done correctly, after the reboot you should still be able to connect to the rasbperry using the raspberrypi.local address, thats because in our "cmdline.txt" it's still as "g_ether" and not "g_midi", so let's fix this:\
-Open the "cmdline.txt" file:
+Open the "cmdline.txt" file:\
 `sudo nano /boot/cmdline.txt`\
-And at the end, replace "g_ether" with "g_midi", then save it (Ctrl+O, Enter, Ctrl+X)\
+And at the end, replace "`g_ether`" with "`g_midi`", then save it (Ctrl+O, Enter, Ctrl+X)\
 Take note of your raspberry pi IP address using `ifconfig`, we will need it in a minute.\
 Now reboot again:\
 `sudo reboot`
@@ -93,7 +93,7 @@ That "f_midi" is our MIDI port that we will be using.
 
 ### The script
 You are tired, i know, but this is the last step, hold on.\
-For now we have:\
+For now we have:
 - Set the Raspberry to be able to work on it via USB
 - Installed all the required libraries that we need
 - Created a MIDI port that we will use to send outputs
