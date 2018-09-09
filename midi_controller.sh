@@ -4,5 +4,5 @@
 
 cd /
 cd home/pi/midi_controller
-sudo python3 footswitch.py
+sudo python3 midi_controller.py
 cd /

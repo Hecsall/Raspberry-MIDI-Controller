@@ -1,6 +1,3 @@
-
-# Testing file, dont mind this.
-
 import logging
 import sys
 import time
@@ -44,10 +41,6 @@ class FootController(object):
     self.controller_change_control = status
     self.midiout = midiout
     
-    self.sustain = False
-    self.legato = False
-    self.portamento = False
-
     # GPIO pins
     # Here initialize GPIO pins you will use
     self.btn4 = Button(4)
@@ -57,17 +50,17 @@ class FootController(object):
     print("< Light a led now >")
 
   
-  def sendMIDI(self, pin, type, channel, value=None):
+  def sendMIDI(self, type, channel, value=None):
     
     # This is a trigget button (press=ON, another press=OFF)
     if value is None: 
-      if not getattr(self, type) or getattr(self, type) == False:
-        setattr(self, type, True)
+      if not getattr(self, str(type), None) or getattr(self, str(type), None) == False:
+        setattr(self, str(type), True)
         controller_change = [type, channel, 64]
         return self.midiout.send_message(controller_change)
 
-      elif getattr(self, type) == True:
-        setattr(self, type, False)
+      elif getattr(self, str(type)) == True:
+        setattr(self, str(type), False)
         controller_change = [type, channel, 0]
         return self.midiout.send_message(controller_change)
 
@@ -91,9 +84,13 @@ def main():
   try:
     while True:
     
-      footcontroller.btn4.when_pressed  = lambda : footcontroller.sendMIDI(type=CONTROLLER_CHANGE, channel=SUSTAIN, value=64) # When pressed activate the CC
-      footcontroller.btn4.when_released = lambda : footcontroller.sendMIDI(type=CONTROLLER_CHANGE, channel=SUSTAIN, value=0) # When released deactivate the CC
-     
+      # Hold behaviour (Press=ON, Release=OFF)
+      # footcontroller.btn4.when_pressed  = lambda : footcontroller.sendMIDI(type=CONTROLLER_CHANGE, channel=SUSTAIN, value=64)
+      # footcontroller.btn4.when_released = lambda : footcontroller.sendMIDI(type=CONTROLLER_CHANGE, channel=SUSTAIN, value=0)
+      
+      # Toggle behaviour (Press=ON, Press again=OFF)
+      footcontroller.btn4.when_pressed  = lambda : footcontroller.sendMIDI(type=CONTROLLER_CHANGE, channel=SUSTAIN)
+      
 
   except KeyboardInterrupt:
     print('')
