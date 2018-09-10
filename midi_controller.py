@@ -89,7 +89,7 @@ def main():
       # footcontroller.btn4.when_released = lambda : footcontroller.sendMIDI(type=CONTROLLER_CHANGE, channel=SUSTAIN, value=0)
       
       # Toggle behaviour (Press=ON, Press again=OFF)
-      footcontroller.btn4.when_pressed  = lambda : footcontroller.sendMIDI(type=CONTROLLER_CHANGE, channel=SUSTAIN)
+      footcontroller.btn4.when_pressed  = lambda : footcontroller.sendMIDI(type=CONTROLLER_CHANGE, channel=0x50) # 0x50 = General purpose controller
       
 
   except KeyboardInterrupt:

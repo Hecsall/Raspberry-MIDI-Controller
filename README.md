@@ -91,7 +91,7 @@ To do so, type `arecordmidi -l` and hit enter, you should see a list of midi por
 ```
 That "f_midi" is our MIDI port that we will be using.
 
-### The script
+### The script and the Autostart
 You are tired, i know, but this is the last step, hold on.\
 For now we have:
 - Set the Raspberry to be able to work on it via USB
@@ -100,7 +100,8 @@ For now we have:
 
 For the last step we need to make the python script execute at boot, so we don't need to do anything.\
 For this purpose i used **Cronjob**.\
-WIP
+So, to make the script autostart at Raspberry Pi boot, i created a .sh file (midi_controller.sh) that executes the python script. Notice that the .sh script points to `/home/pi/midi_controller/midi_controller.py` so you may need to customize that path to reflect your script location.\
+
 
 
 ### Credits
