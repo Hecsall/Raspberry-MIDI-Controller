@@ -44,6 +44,7 @@ class FootController(object):
     # GPIO pins
     # Here initialize GPIO pins you will use
     self.btn4 = Button(4)
+    self.btn17 = Button(17)
     
 
     print('Initialized FootController')
@@ -89,7 +90,9 @@ def main():
       # footcontroller.btn4.when_released = lambda : footcontroller.sendMIDI(type=CONTROLLER_CHANGE, channel=SUSTAIN, value=0)
       
       # Toggle behaviour (Press=ON, Press again=OFF)
-      footcontroller.btn4.when_pressed  = lambda : footcontroller.sendMIDI(type=CONTROLLER_CHANGE, channel=0x50) # 0x50 = General purpose controller
+      footcontroller.btn4.when_pressed  = lambda : footcontroller.sendMIDI(type=CONTROLLER_CHANGE, channel=0x50) # 0x50 = General purpose controller 1
+      
+      footcontroller.btn17.when_pressed  = lambda : footcontroller.sendMIDI(type=CONTROLLER_CHANGE, channel=0x51) # 0x51 = General purpose controller 2
       
 
   except KeyboardInterrupt:
