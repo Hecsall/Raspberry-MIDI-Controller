@@ -136,8 +136,8 @@ The code to do that is the following:
 footcontroller.btn0.when_pressed = lambda : footcontroller.sendMIDI(type=CONTROLLER_CHANGE, channel=0x40, value=64)
 footcontroller.btn0.when_released = lambda : footcontroller.sendMIDI(type=CONTROLLER_CHANGE, channel=0x40, value=0)
 ```
-Where "btn0" is the name of the initialized button on Step 1.
-Here, when using Hold mode you need to specify the "value" that you want to send.
+Where "btn0" is the name of the initialized button on Step 1.\
+Here, when using Hold mode you need to specify the "value" that you want to send. (for NOTE_ON messages, the value is the velocity of the note)
 
 In both Toggle and Hold modes, you see there is a **"type"** and a **"channel"**. I think those are theorically wrong names, i'll change them as soon as i can.\
 Anyways, the "type" is the **MIDI message type** you want to send, like "NOTE_ON", "NOTE_OFF", "CONTROLLER_CHANGE" etc, i imported them from python-rtmidi, refer to [python-rtmidi's constants file](https://github.com/SpotlightKid/python-rtmidi/blob/master/rtmidi/midiconstants.py) to know more about them.\
