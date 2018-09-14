@@ -91,17 +91,50 @@ To do so, type `arecordmidi -l` and hit enter, you should see a list of midi por
 ```
 That "f_midi" is our MIDI port that we will be using.
 
-### The script and the Autostart
-You are tired, i know, but this is the last step, hold on.\
+### Autostarting the Script
+You are tired, i know, but we are close to the end, hold on.\
 For now we have:
 - Set the Raspberry to be able to work on it via USB
 - Installed all the required libraries that we need
 - Created a MIDI port that we will use to send outputs
 
-For the last step we need to make the python script execute at boot, so we don't need to do anything.\
+We need to make the python script execute at boot.\
 For this purpose i used **Cronjob**.\
 So, to make the script autostart at Raspberry Pi boot, i created a .sh file (midi_controller.sh) that executes the python script. Notice that the .sh script points to `/home/pi/midi_controller/midi_controller.py` so you may need to customize that path to reflect your script location.\
+To add a cronjob entry, use the following command:\
+```
+sudo crontab -e
+```
+This will open your crontab, than you can setup your cronjob pasting this line at the bottom:\
+```
+@reboot sh /home/pi/midi_controller/midi_controller.sh >/home/pi/logs/cronlog 2>&1
+```
+Notice that you will have to edit that path, pointing to your midi_controller.sh file. That line of code will also output the python logs in a "cronlog" file under /home/pi/logs so if for some reason the script isn't working you can check if there are some errors there.
 
+### Customizing the Python Script
+By default you will find just things i setup for myself, but you would likely customize the script to add/remove/edit some buttons.\
+I made it really simple, you just have to do 2 things:
+1. **Add inizialization of GPIO Pins** inside the FootController Class (something around line 46).\
+just copy what i already did, replacing the number with your GPIO pin number you want to use, for example:
+```python
+self.btn14 = Button(14)
+```
+So now our script can use that pin (refer to the "gpio_pinout.png" inside the "other" folder, GPIO pin numbers are the ones on the outside).
+2. **Assign the GPIO pin to a MIDI message**, you can find some i did around line 90~.\
+Here you will see 2 types of initialization:
+- **Toggle mode**: when you press and release the button the message **"ON"** is sent, when you press and release it again the message **"OFF"** is sent.\
+The code to do that is the following:\
+```python
+footcontroller.btn0.when_pressed = lambda : footcontroller.sendMIDI(type=CONTROLLER_CHANGE, channel=0x66)
+```
+Where "btn0" is the name of the initialized button on Step 1.
+- **Hold mode**: when you are pressing down the button the message "ON" is sent, when you release the button the message "OFF" is sent.\
+The code to do that is the following:\
+```python
+footcontroller.btn0.when_pressed = lambda : footcontroller.sendMIDI(type=CONTROLLER_CHANGE, channel=SUSTAIN, value=64)
+footcontroller.btn0.when_released = lambda : footcontroller.sendMIDI(type=CONTROLLER_CHANGE, channel=SUSTAIN, value=0)
+```
+Where "btn0" is the name of the initialized button on Step 1.
 
 
 ### Credits
