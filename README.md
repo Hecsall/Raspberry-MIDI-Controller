@@ -123,20 +123,27 @@ So now our script can use that pin (refer to the "gpio_pinout.png" inside the "o
 
 2. **Assign the GPIO pin to a MIDI message**, you can find some i did around line 90~.\
 Here you will see 2 types of initialization:
-- **Toggle mode**: when you press and release the button the message **"ON"** is sent, when you press and release it again the message **"OFF"** is sent.\
+- **Toggle mode**: when you press and release the button the message "ON" is sent, when you press and release it again the message "OFF" is sent.\
 The code to do that is the following:
 ```python
 footcontroller.btn0.when_pressed = lambda : footcontroller.sendMIDI(type=CONTROLLER_CHANGE, channel=0x66)
 ```
-Where "btn0" is the name of the initialized button on Step 1.
+Where "btn0" is the name of the initialized button on Step 1.\
+At the moment, when using Toggle mode, you can't specify a "value" option, because when i made it i was using it to control a "Controller Change" MIDI signal, that basically can only have 2 possible values, that are a number <= 63 for "OFF", and a number >= 64 for "ON", so i just "hardcoded" the ON signal to 100 and the OFF signal to 0. Maybe in the future i will change that to allow a "ON/OFF" value array.
 - **Hold mode**: when you are pressing down the button the message "ON" is sent, when you release the button the message "OFF" is sent.\
 The code to do that is the following:
 ```python
-footcontroller.btn0.when_pressed = lambda : footcontroller.sendMIDI(type=CONTROLLER_CHANGE, channel=SUSTAIN, value=64)
-footcontroller.btn0.when_released = lambda : footcontroller.sendMIDI(type=CONTROLLER_CHANGE, channel=SUSTAIN, value=0)
+footcontroller.btn0.when_pressed = lambda : footcontroller.sendMIDI(type=CONTROLLER_CHANGE, channel=0x40, value=64)
+footcontroller.btn0.when_released = lambda : footcontroller.sendMIDI(type=CONTROLLER_CHANGE, channel=0x40, value=0)
 ```
 Where "btn0" is the name of the initialized button on Step 1.
+Here, when using Hold mode you need to specify the "value" that you want to send.
 
+In both Toggle and Hold modes, you see there is a **"type"** and a **"channel"**. I think those are theorically wrong names, i'll change them as soon as i can.\
+Anyways, the "type" is the **MIDI message type** you want to send, like "NOTE_ON", "NOTE_OFF", "CONTROLLER_CHANGE" etc, i imported them from python-rtmidi, refer to [python-rtmidi's constants file](https://github.com/SpotlightKid/python-rtmidi/blob/master/rtmidi/midiconstants.py) to know more about them.\
+The "channel" is the actual Hex message you want to send, so, if you used NOTE_ON for the type, the channel would be the actual note to send, like **0x48** to send a C2, or if you used CONTROLLER_CHANGE you will put **0x40** for the "Hold pedal".\
+To know Hex codes for Notes, refer to [this table](https://www.wavosaur.com/download/midi-note-hex.php).\
+To know Controller Change messages refer to the official [MIDI documentation table](https://www.midi.org/specifications-old/item/table-3-control-change-messages-data-bytes-2) (the numbers you have to use are on the "HEX" column)
 
 ### Credits
 [Raspberry Pi Zero - Programming over USB!](https://blog.gbaman.info/?p=791)\
