@@ -150,6 +150,6 @@ To know Controller Change messages refer to the official [MIDI documentation tab
 [Setting up Raspberry Pi for MIDI](https://ixdlab.itu.dk/wp-content/uploads/sites/17/2017/10/Setting-Up-Raspberry-Pi-for-MIDI.pdf)\
 (also i downloaded that PDF and uploaded in this git in the "other" folder, just to be sure not to lose it if the link goes down)\
 [Python-RtMidi](https://pypi.org/project/python-rtmidi/)\
-[RPi.GPIO](https://pypi.org/project/RPi.GPIO/)
-[MIDI.org Controller Change](https://www.midi.org/specifications-old/item/table-3-control-change-messages-data-bytes-2)
+[RPi.GPIO](https://pypi.org/project/RPi.GPIO/)\
+[MIDI.org Controller Change](https://www.midi.org/specifications-old/item/table-3-control-change-messages-data-bytes-2)\
 [Hex to MIDI note chart](https://www.wavosaur.com/download/midi-note-hex.php)
