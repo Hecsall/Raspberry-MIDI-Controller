@@ -3,7 +3,7 @@ import sys
 import time
 from os.path import exists
 
-from gpiozero import Button
+from gpiozero import LED, Button
 import rtmidi
 from rtmidi.midiutil import open_midioutput
 from rtmidi.midiconstants import ( 
@@ -45,12 +45,8 @@ class FootController(object):
     # Here initialize GPIO pins you will use
     self.btn4 = Button(4)
     self.btn17 = Button(17)
-    
-    #self.0x66 = False
-    #self.0x67 = False
 
     print('Initialized FootController')
-    print("< Light a led now >")
 
   
   def sendMIDI(self, type, channel, value=None):
@@ -59,7 +55,7 @@ class FootController(object):
     if value is None: 
       if not getattr(self, str(channel), None) or getattr(self, str(channel), None) == False:
         setattr(self, str(channel), True)
-        controller_change = [type, channel, 64]
+        controller_change = [type, channel, 100]
         return self.midiout.send_message(controller_change)
 
       elif getattr(self, str(channel)) == True:
@@ -82,19 +78,24 @@ def main():
   # Init FootController
   footcontroller = FootController(midiout)
 
+  # A status indicator, will light up after the FootController is initialized,
+  # to let you know that now it's able to send midi signals
+  statusLed = LED(18)
+  statusLed.on()
+
   log.info("Entering main loop. Press Control-C to exit.")
 
   try:
     while True:
     
       # Hold behaviour (Press=ON, Release=OFF)
-      # footcontroller.btn4.when_pressed  = lambda : footcontroller.sendMIDI(type=CONTROLLER_CHANGE, channel=SUSTAIN, value=64)
+      # footcontroller.btn4.when_pressed = lambda : footcontroller.sendMIDI(type=CONTROLLER_CHANGE, channel=SUSTAIN, value=64)
       # footcontroller.btn4.when_released = lambda : footcontroller.sendMIDI(type=CONTROLLER_CHANGE, channel=SUSTAIN, value=0)
       
       # Toggle behaviour (Press=ON, Press again=OFF)
-      footcontroller.btn4.when_pressed  = lambda : footcontroller.sendMIDI(type=CONTROLLER_CHANGE, channel=0x66)
+      footcontroller.btn4.when_pressed = lambda : footcontroller.sendMIDI(type=CONTROLLER_CHANGE, channel=0x66)
       
-      footcontroller.btn17.when_pressed  = lambda : footcontroller.sendMIDI(type=CONTROLLER_CHANGE, channel=0x67)
+      footcontroller.btn17.when_pressed = lambda : footcontroller.sendMIDI(type=CONTROLLER_CHANGE, channel=0x67)
       
       # Usually free MIDI Channels:
       # 0x50, 0x51, 0x52, 0x53, 0x55, 0X56, 0X57, 0X59, 0X5A, 
