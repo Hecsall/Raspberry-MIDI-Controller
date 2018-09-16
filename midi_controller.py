@@ -7,33 +7,20 @@ from gpiozero import LED, Button
 import rtmidi
 from rtmidi.midiutil import open_midioutput
 from rtmidi.midiconstants import ( 
-  CONTROLLER_CHANGE, 
-  NOTE_ON, 
-  NOTE_OFF, 
-  # CC - Controller Change
-  SUSTAIN,
-  PORTAMENTO,
-  SOSTENUTO,
-  LEGATO
+  NOTE_OFF,
+  NOTE_ON,
+  POLYPHONIC_PRESSURE,
+  CONTROLLER_CHANGE,
+  PROGRAM_CHANGE,
+  CHANNEL_PRESSURE,
+  PITCH_BEND
 )
 
 
 
+
+
 log = logging.getLogger('pyFootController')
-
-
-STATUS_MAP = {
-  'noteon': NOTE_ON,
-  'noteoff': NOTE_OFF,
-  'controllerchange': CONTROLLER_CHANGE
-}
-
-CC_CONTROLS_MAP = {
-  'sustain': SUSTAIN,
-  'portamento': PORTAMENTO,
-  'sostenuto': SOSTENUTO,
-  'legato': LEGATO
-}
 
 
 class FootController(object):
@@ -89,8 +76,8 @@ def main():
     while True:
     
       # Hold behaviour (Press=ON, Release=OFF)
-      # footcontroller.btn4.when_pressed = lambda : footcontroller.sendMIDI(type=CONTROLLER_CHANGE, channel=SUSTAIN, value=64)
-      # footcontroller.btn4.when_released = lambda : footcontroller.sendMIDI(type=CONTROLLER_CHANGE, channel=SUSTAIN, value=0)
+      # footcontroller.btn4.when_pressed = lambda : footcontroller.sendMIDI(type=CONTROLLER_CHANGE, channel=0x40, value=64)
+      # footcontroller.btn4.when_released = lambda : footcontroller.sendMIDI(type=CONTROLLER_CHANGE, channel=0x40, value=0)
       
       # Toggle behaviour (Press=ON, Press again=OFF)
       footcontroller.btn4.when_pressed = lambda : footcontroller.sendMIDI(type=CONTROLLER_CHANGE, channel=0x66)
