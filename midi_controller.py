@@ -85,12 +85,20 @@ def main():
       # footcontroller.btn4.when_pressed = lambda : footcontroller.sendMIDI(type=CONTROLLER_CHANGE, channel=0x40, value=64)
       # footcontroller.btn4.when_released = lambda : footcontroller.sendMIDI(type=CONTROLLER_CHANGE, channel=0x40, value=0)
       
+      footcontroller.btn5.when_pressed = lambda : footcontroller.sendMIDI(type=CONTROLLER_CHANGE, channel=0x50, value=100)
+      footcontroller.btn5.when_released = lambda : footcontroller.sendMIDI(type=CONTROLLER_CHANGE, channel=0x50, value=0)
+      footcontroller.btn6.when_pressed = lambda : footcontroller.sendMIDI(type=CONTROLLER_CHANGE, channel=0x51, value=100)
+      footcontroller.btn6.when_released = lambda : footcontroller.sendMIDI(type=CONTROLLER_CHANGE, channel=0x51, value=0)
+      footcontroller.btn13.when_pressed = lambda : footcontroller.sendMIDI(type=CONTROLLER_CHANGE, channel=0x52, value=100)
+      footcontroller.btn13.when_released = lambda : footcontroller.sendMIDI(type=CONTROLLER_CHANGE, channel=0x52, value=0)
+      footcontroller.btn19.when_pressed = lambda : footcontroller.sendMIDI(type=CONTROLLER_CHANGE, channel=0x53, value=100)
+      footcontroller.btn19.when_released = lambda : footcontroller.sendMIDI(type=CONTROLLER_CHANGE, channel=0x53, value=0)
+      footcontroller.btn26.when_pressed = lambda : footcontroller.sendMIDI(type=CONTROLLER_CHANGE, channel=0x30, value=100)
+      footcontroller.btn26.when_released = lambda : footcontroller.sendMIDI(type=CONTROLLER_CHANGE, channel=0x30, value=0)
+      
       # Toggle behaviour (Press=ON, Press again=OFF)
-      footcontroller.btn5.when_pressed = lambda : footcontroller.sendMIDI(type=CONTROLLER_CHANGE, channel=0x66)
-      footcontroller.btn6.when_pressed = lambda : footcontroller.sendMIDI(type=CONTROLLER_CHANGE, channel=0x67)
-      footcontroller.btn13.when_pressed = lambda : footcontroller.sendMIDI(type=CONTROLLER_CHANGE, channel=0x67)
-      footcontroller.btn19.when_pressed = lambda : footcontroller.sendMIDI(type=CONTROLLER_CHANGE, channel=0x67)
-      footcontroller.btn26.when_pressed = lambda : footcontroller.sendMIDI(type=CONTROLLER_CHANGE, channel=0x67)
+      # footcontroller.btn5.when_pressed = lambda : footcontroller.sendMIDI(type=CONTROLLER_CHANGE, channel=0x50)
+
       
       # Usually free MIDI Channels:
       # 0x50, 0x51, 0x52, 0x53, 0x55, 0X56, 0X57, 0X59, 0X5A, 
