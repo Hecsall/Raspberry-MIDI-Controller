@@ -1,6 +1,11 @@
 
 # Raspberry Pi Zero - MIDI Controller
 
+> **Before reading**:\
+This project was a little experiment when i was approaching to MIDI controllers. It was fun (and stressful) to make, and i was pretty happy with the result, but keep in mind one thing: The Raspberry Pi is technically a computer, it needs some time to bootup when you plug the USB cable. So it's not really "plug and play", it's more like a "plug, wait some time, then play". Don't expect to plug it in and be instantly ready to jam.\
+This is the reason why i made an **Arduino version** of this, you can find it (with images of the build process) at this link https://github.com/Hecsall/arduino-midi-footswitch . It is much faster, simple and reliable. So if you really need a custom built midi controller, i would suggest to take the Arduino approach.\
+**Thank you for reading, and have fun!**
+
 This is a project i did to make a midi controller using a Raspberry Pi Zero in "Gadget Mode" (a standalone device that's plug-and-play with a single USB cable just like every other MIDI controller).\
 The script is still work in progress, at the moment i made only the "Sustain" button, but i'm planning to enhance it with more functions.
 
