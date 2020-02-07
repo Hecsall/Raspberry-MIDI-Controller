@@ -37,6 +37,9 @@ This script uses **Python 3**, so make sure to have it.
 Ok now let's see what we need. I used **gpiozero** to control the GPIO pins on the Raspberry.\
 `sudo apt install python3-gpiozero`
 
+Install requirements for **python-rtmidi:**\
+`sudo apt install libasound2-dev libjack0 libjack-dev`
+
 Now install **python-rtmidi**:\
 `sudo pip3 install python-rtmidi`
 
